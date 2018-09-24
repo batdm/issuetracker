@@ -1,0 +1,17 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+    #if($issue)
+    <h1>$issue.getName())</h1>
+    <h2>Status: $issue.getStatus()</h2>
+    <h2>Start date: $issue.getStartdate()</h2>
+##    <h2>Author: $employee.getEmployeeByEmployeeId($issue.getEmployee_id())</h2>
+    <h2>Author: $employee.getLogin()</h2>
+    ##    <div class="issue">
+    ##        <div class="bookCover">
+    ##            <img src="$issue.getLargeCover()" alt="$issue.getTitle()">
+    ##        </div>
+    ##    </div>
+    #else
+    <h1>$msg.get("ISSUES_ISSUE_NOT_FOUND")</h1>
+    #end
+#end
