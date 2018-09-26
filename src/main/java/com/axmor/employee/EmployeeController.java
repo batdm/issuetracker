@@ -15,8 +15,20 @@ public class EmployeeController {
         if (employee == null) {
             return false;
         }
-        String hashedPassword = BCrypt.hashpw(password, employee.getSalt());
-        return hashedPassword.equals(employee.getHashedPassword());
+//        String hashedPassword = BCrypt.hashpw(password, employee.getSalt());
+//        return hashedPassword.equals(employee.getHashedPassword());
+        return password.equals(employee.getPassword());
+    }
+
+    public static boolean userIsExist(String login) {
+        if (login.isEmpty()) {
+            return false;
+        }
+        Employee employee = employeeDao.getEmployeeByLogin(login);
+        if (employee == null) {
+            return false;
+        }
+        return login.equals(employee.getLogin());
     }
 
     // This method doesn't do anything, it's just included as an example

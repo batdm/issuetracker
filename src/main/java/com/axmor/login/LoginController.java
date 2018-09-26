@@ -1,6 +1,8 @@
 package com.axmor.login;
 
+import com.axmor.Main;
 import com.axmor.employee.EmployeeController;
+import com.axmor.sql2omodel.ConnectDB;
 import com.axmor.util.Path;
 import com.axmor.util.ViewUtil;
 import spark.Request;
@@ -10,9 +12,11 @@ import spark.Route;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.axmor.Main.connectDB;
 import static com.axmor.util.RequestUtil.*;
 
 public class LoginController {
+//    static ConnectDB connectDB = new ConnectDB();
     // The origin of the request (request.pathInfo()) is saved in the session so
     // the user can be redirected back after login
     public static void ensureUserIsLoggedIn(Request request, Response response) {
@@ -48,5 +52,25 @@ public class LoginController {
         request.session().attribute("loggedOut", true);
         response.redirect(Path.Web.LOGIN);
         return null;
+    };
+
+    public static Route serveSignUpPage = (Request request, Response response) -> {
+        Map<String, Object> model = new HashMap<>();
+        model.put("loggedOut", removeSessionAttrLoggedOut(request));
+        model.put("loginRedirect", removeSessionAttrLoginRedirect(request));
+        return ViewUtil.render(request, model, Path.Template.SIGNUP);
+    };
+
+    public static Route handleSignUpPost=(Request request, Response response) ->{
+        Map<String, Object> model = new HashMap<>();
+        if (EmployeeController.userIsExist(getQueryLogin(request))){
+            model.put("loginAlreadyExist", true);
+            return ViewUtil.render(request, model, Path.Template.SIGNUP);
+        }
+        model.put("signupSucceeded", true);
+
+        connectDB.model.createEmployee(getQueryLogin(request),getQueryPassword(request));
+        request.session().attribute("createdUser", getQueryLogin(request));
+        return ViewUtil.render(request, model, Path.Template.SIGNUP);
     };
 }

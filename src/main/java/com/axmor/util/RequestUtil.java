@@ -41,6 +41,9 @@ public class RequestUtil {
     public static String getSessionCurrentUser(Request request) {
         return request.session().attribute("currentUser");
     }
+    public static String getSessionCreatedUser(Request request) {
+        return request.session().attribute("createdUser");
+    }
 
     public static boolean removeSessionAttrLoggedOut(Request request) {
         Object loggedOut = request.session().attribute("loggedOut");

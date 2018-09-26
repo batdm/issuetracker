@@ -6,7 +6,11 @@
 #* @vtlvariable name="employees" type="java.lang.Iterable<com.axmor.employee.Employee>" *#
 #* @vtlvariable name="employee" type="com.axmor.employee.Employee" *#
 #* @vtlvariable name="currentUser" type="java.lang.String" *#
+#* @vtlvariable name="createdUser" type="java.lang.String" *#
 #* @vtlvariable name="loggedOut" type="java.lang.String" *#
 #* @vtlvariable name="authenticationFailed" type="java.lang.String" *#
 #* @vtlvariable name="authenticationSucceeded" type="java.lang.String" *#
 #* @vtlvariable name="loginRedirect" type="java.lang.String" *#
+#* @vtlvariable name="loginAlreadyExist" type="java.lang.String" *#
+#* @vtlvariable name="signupSucceeded" type="java.lang.String" *#
+

@@ -24,6 +24,7 @@ public class IssueController {
             return ViewUtil.render(request, model, Path.Template.ISSUE_ALL);
         }
         if (clientAcceptsJson(request)) {
+            response.status(200);//http://sparkjava.com/tutorials/sql2o-database
             return dataToJson(issueDao.getAllIssues());
         }
         return ViewUtil.notAcceptable.handle(request, response);

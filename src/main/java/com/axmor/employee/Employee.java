@@ -6,7 +6,6 @@ import lombok.Value;
 public class Employee {
     String employee_id;
     String login;
-    String salt;
-    String hashedPassword;
+    String password;
 
 }

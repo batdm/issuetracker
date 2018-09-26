@@ -4,7 +4,6 @@
     <h1>$issue.getName())</h1>
     <h2>Status: $issue.getStatus()</h2>
     <h2>Start date: $issue.getStartdate()</h2>
-##    <h2>Author: $employee.getEmployeeByEmployeeId($issue.getEmployee_id())</h2>
     <h2>Author: $employee.getLogin()</h2>
     ##    <div class="issue">
     ##        <div class="bookCover">

@@ -1,0 +1,32 @@
+drop table employees;
+drop table issues;
+drop table issue_log;
+
+create table employee(
+employee_id int primary key auto_increment,
+login varchar(255),
+password varchar(255));
+
+create table issue(
+issue_id int primary key auto_increment,
+employee_id int,
+name varchar(255),
+description varchar(255),
+startdate date,
+lastdate date,
+status varchar(255),
+foreign key(employee_id) references employee(employee_id));
+
+create table status(
+status_id int primary key auto_increment,
+name varchar(255));
+
+create table issue_log(
+issue_log_id int primary key auto_increment,
+issue_id int,
+employee_id int,
+status_id int,
+info varchar(255),
+foreign key(issue_id) references issue(issue_id),
+foreign key(employee_id) references employee(employee_id),
+foreign key(status_id) references status(status_id));

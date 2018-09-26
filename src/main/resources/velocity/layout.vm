@@ -9,17 +9,6 @@
 <body>
 <header>
     <nav>
-##        <a href="$WebPath.getINDEX()"></a>
-##        <ul id="chooseLanguage">
-##            <form>
-##                <li>
-##                    <button name="locale" value="de" style="background-image: url(/img/german.png);"></button>
-##                </li>
-##                <li>
-##                    <button name="locale" value="en" style="background-image: url(/img/english.png);"></button>
-##                </li>
-##            </form>
-##        </ul>
         <ul id="menu">
             <li><a href="$WebPath.getISSUES()">$msg.get("COMMON_NAV_ALLISSUES")</a></li>
             #if($currentUser)
@@ -30,6 +19,7 @@
                 </li>
             #else
                 <li><a href="$WebPath.getLOGIN()"">$msg.get("COMMON_NAV_LOGIN")</a></li>
+                <li><a href="$WebPath.getSIGNUP()"">$msg.get("COMMON_NAV_SIGNUP")</a></li>
             #end
         </ul>
     </nav>
