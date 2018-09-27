@@ -1,10 +1,8 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
 <h1>$msg.get("ISSUES_HEADING_ALL")</h1>
-##<div class="row row-3">
 <div>
-    <table>
-        <caption>Issue Tracker</caption>
+    <table cellspacing="10">
         <tr>
             <th>Issue</th>
             <th>Status</th>
@@ -17,16 +15,6 @@
                 <td>$issue.getStartdate()</td>
             </tr>
         #end
-    ##        <div class="col">
-
-
-    ##                <div class="bookCover">
-    ##                    <img src="$issue.getMediumCover()" alt="$issue.getTitle()">
-    ##                </div>
-    ##                $msg.get("BOOKS_CAPTION", $issue.getTitle(), $issue.getAuthor())
-    ##            </a>
-    ##        </div>
-    ##        #end
     </table>
 </div>
 #end

@@ -1,6 +1,7 @@
-drop table employees;
-drop table issues;
+drop table employee;
+drop table issue;
 drop table issue_log;
+drop table status;
 
 create table employee(
 employee_id int primary key auto_increment,
@@ -9,24 +10,24 @@ password varchar(255));
 
 create table issue(
 issue_id int primary key auto_increment,
-employee_id int,
+employee_login varchar(255),
 name varchar(255),
 description varchar(255),
-startdate date,
-lastdate date,
+startdate timestamp,
+lastdate timestamp,
 status varchar(255),
-foreign key(employee_id) references employee(employee_id));
+foreign key(employee_login) references employee(login));
 
 create table status(
 status_id int primary key auto_increment,
 name varchar(255));
 
 create table issue_log(
-issue_log_id int primary key auto_increment,
-issue_id int,
-employee_id int,
-status_id int,
-info varchar(255),
-foreign key(issue_id) references issue(issue_id),
-foreign key(employee_id) references employee(employee_id),
-foreign key(status_id) references status(status_id));
+log_id int primary key auto_increment,
+issue_name varchar(255),
+employee_login varchar(255),
+status varchar(255),
+comment varchar(255),
+date timestamp,
+foreign key(issue_name) references issue(name),
+foreign key(employee_login) references employee(login))

@@ -10,10 +10,14 @@ import spark.Route;
 
 import java.util.HashMap;
 
+import static com.axmor.Main.connectDB;
 import static com.axmor.Main.employeeDao;
 import static com.axmor.Main.issueDao;
+import static com.axmor.Main.issueLogDao;
+import static com.axmor.Main.statusDao;
 import static com.axmor.util.JsonUtil.*;
 import static com.axmor.util.RequestUtil.*;
+import static spark.Spark.get;
 
 public class IssueController {
     public static Route fetchAllIssues = (Request request, Response response) -> {
@@ -34,15 +38,49 @@ public class IssueController {
         if (clientAcceptsHtml(request)) {
             HashMap<String, Object> model = new HashMap<>();
             Issue issue = issueDao.getIssueById(getParamIssueId(request));
-            Employee employee = employeeDao.getEmployeeByEmployeeId(issue.getEmployee_id());
+            Employee employee = employeeDao.getEmployeeByLogin(issue.getEmployee_login());
             model.put("issue", issue);
             model.put("employee", employee);
-
+            model.put("issue_logs", issueLogDao.getAllIssueLogs(issue.getName()));
+            model.put("empty_log", issueLogDao.issueLogSize());
+            model.put("Allstatus", statusDao.getAllStatus());
             return ViewUtil.render(request, model, Path.Template.ISSUE_ONE);
         }
         if (clientAcceptsJson(request)) {
             return dataToJson(issueDao.getIssueById(getParamIssueId(request)));
         }
         return ViewUtil.notAcceptable.handle(request, response);
+    };
+
+    public static Route handleOneIssue = (Request request, Response response) -> {
+        LoginController.ensureUserIsLoggedIn(request, response);
+        HashMap<String, Object> model = new HashMap<>();
+        Issue issue = issueDao.getIssueById(getParamIssueId(request));
+        Employee employee = employeeDao.getEmployeeByLogin(issue.getEmployee_login());
+        model.put("issue", issue);
+        model.put("employee", employee);
+        model.put("issue_logs", issueLogDao.getAllIssueLogs(issue.getName()));
+        model.put("Allstatus", statusDao.getAllStatus());
+        connectDB.model.createComment(issue.getName(), getSessionCurrentUser(request), getQueryStatus(request), getQueryComment(request));
+        get(Path.Web.ONE_ISSUE, IssueController.fetchOneIssue);
+        return ViewUtil.render(request, model, Path.Template.ISSUE_ONE);
+    };
+
+    public static Route serveCreateIssue = (Request request, Response response) -> {
+        LoginController.ensureUserIsLoggedIn(request, response);
+        HashMap<String, Object> model = new HashMap<>();
+        return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
+    };
+
+    public static Route handleCreateIssue = (Request request, Response response) -> {
+        LoginController.ensureUserIsLoggedIn(request, response);
+        HashMap<String, Object> model = new HashMap<>();
+        Issue issue = issueDao.getIssueByName(getQueryIssueName(request));
+        if (getQueryIssueName(request).equals(issue.getName())) {
+            model.put("issueAlreadyExist", true);
+            return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
+        }
+        connectDB.model.createIssue(getSessionCurrentUser(request), getQueryIssueName(request), getQueryIssueDescription(request));
+        return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
     };
 }

@@ -12,5 +12,12 @@
 #* @vtlvariable name="authenticationSucceeded" type="java.lang.String" *#
 #* @vtlvariable name="loginRedirect" type="java.lang.String" *#
 #* @vtlvariable name="loginAlreadyExist" type="java.lang.String" *#
+#* @vtlvariable name="issueAlreadyExist" type="java.lang.String" *#
 #* @vtlvariable name="signupSucceeded" type="java.lang.String" *#
+#* @vtlvariable name="empty_log" type="java.lang.Integer" *#
+#* @vtlvariable name="issue_logs" type="java.lang.Iterable<com.axmor.issue_log.IssueLog>" *#
+#* @vtlvariable name="issue_log" type="com.axmor.issue_log.IssueLog" *#
+#* @vtlvariable name="Allstatus" type="java.lang.Iterable<com.axmor.status.Status>" *#
+#* @vtlvariable name="status" type="com.axmor.status.Status" *#
+
 

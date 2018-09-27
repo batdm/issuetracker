@@ -1,15 +1,52 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
     #if($issue)
-    <h1>$issue.getName())</h1>
-    <h2>Status: $issue.getStatus()</h2>
-    <h2>Start date: $issue.getStartdate()</h2>
-    <h2>Author: $employee.getLogin()</h2>
-    ##    <div class="issue">
-    ##        <div class="bookCover">
-    ##            <img src="$issue.getLargeCover()" alt="$issue.getTitle()">
-    ##        </div>
-    ##    </div>
+    <h1>$issue.getName()</h1>
+    <label><strong>Status: </strong>$issue.getStatus()</label><br>
+    <label><strong>Start date: </strong>$issue.getStartdate()</label><br>
+    <label><strong>Author: </strong>$employee.getLogin()</label><br>
+    <label><strong>Description: </strong>$issue.getDescription()</label><br>
+    <label>History:</label><br>
+    <table cellspacing="10">
+        <thead>
+        <tr>
+            #if($empty_log>0)
+                <td>Employee</td>
+                <td>Status</td>
+                <td>Comment</td>
+                <td>Date</td>
+            #else
+                <td colspan="4">History is empty</td>
+            #end
+        </tr>
+        </thead>
+        <tbody>
+            #foreach($issue_log in $issue_logs)
+            <tr>
+                <td>$issue_log.getEmployee_login()</td>
+                <td>$issue_log.getStatus()</td>
+                <td>$issue_log.getComment()</td>
+                <td>$issue_log.getDate()</td>
+            </tr>
+            #end
+        </tbody>
+    </table>
+    <form method="post">
+        <div id="add_comment">
+            <p>Status:
+                <select size="1" name="status" id="status">
+                    #foreach($status in $Allstatus)
+                        <option>$status.getName()</option>
+                    #end
+                </select></p>
+            <p>Author: $currentUser</p>
+            <p>Comment:<Br>
+                <textarea name="comment" cols="40" rows="3" required></textarea></p>
+            <p><input type="submit" value="Add">
+                <input type="reset" value="Clean"></p>
+        </div>
+        <param name="name" value="$issue.getName()">
+    </form>
     #else
     <h1>$msg.get("ISSUES_ISSUE_NOT_FOUND")</h1>
     #end

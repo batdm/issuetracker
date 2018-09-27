@@ -3,10 +3,12 @@ package com.axmor.sql2omodel;
 import java.util.List;
 
 public interface Model {
-    String createIssue(String issue_name, String author, String description);
+    void createIssue(String employee_id, String name, String description);
     String addComment(String text);
     List getAllIssues();
+    List getAllIssueLogs(String issue_name);
+    List getAllStatus();
     List getAllEmployees();
-    String getIssue(String issue_id);
     void createEmployee(String login, String password);
+    void createComment(String issue_name,String employee_login,String status,String comment);
 }

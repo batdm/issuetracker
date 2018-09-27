@@ -11,11 +11,15 @@
     <nav>
         <ul id="menu">
             <li><a href="$WebPath.getISSUES()">$msg.get("COMMON_NAV_ALLISSUES")</a></li>
+            <li><a href="$WebPath.getCREATE_ISSUE()">$msg.get("COMMON_NAV_CREATEISSUE")</a></li>
             #if($currentUser)
                 <li>
                     <form method="post" action="$WebPath.getLOGOUT()">
                         <button id="logout">$msg.get("COMMON_NAV_LOGOUT")</button>
                     </form>
+                </li>
+                <li>
+                    <label id="logout">User: $currentUser</label>
                 </li>
             #else
                 <li><a href="$WebPath.getLOGIN()"">$msg.get("COMMON_NAV_LOGIN")</a></li>

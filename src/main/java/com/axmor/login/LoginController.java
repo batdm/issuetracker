@@ -1,8 +1,6 @@
 package com.axmor.login;
 
-import com.axmor.Main;
 import com.axmor.employee.EmployeeController;
-import com.axmor.sql2omodel.ConnectDB;
 import com.axmor.util.Path;
 import com.axmor.util.ViewUtil;
 import spark.Request;
@@ -16,7 +14,6 @@ import static com.axmor.Main.connectDB;
 import static com.axmor.util.RequestUtil.*;
 
 public class LoginController {
-//    static ConnectDB connectDB = new ConnectDB();
     // The origin of the request (request.pathInfo()) is saved in the session so
     // the user can be redirected back after login
     public static void ensureUserIsLoggedIn(Request request, Response response) {
@@ -68,7 +65,6 @@ public class LoginController {
             return ViewUtil.render(request, model, Path.Template.SIGNUP);
         }
         model.put("signupSucceeded", true);
-
         connectDB.model.createEmployee(getQueryLogin(request),getQueryPassword(request));
         request.session().attribute("createdUser", getQueryLogin(request));
         return ViewUtil.render(request, model, Path.Template.SIGNUP);

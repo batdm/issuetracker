@@ -1,0 +1,19 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<form id="loginForm" method="post">
+    #if($issueAlreadyExist)
+        <p class="bad notification">$msg.get("CREATE_ISSUE_FAILED")</p>
+    #end
+    <h1>$msg.get("CREATE_ISSUE_HEADING")</h1>
+    <label>$msg.get("CREATE_ISSUE_NAME")</label>
+    <input type="text" name="name" placeholder="$msg.get("CREATE_ISSUE_NAME")" value="" required>
+    <label>$msg.get("CREATE_ISSUE_DESCRIPTION")</label>
+    <input type="text" name="description" placeholder="$msg.get("CREATE_ISSUE_DESCRIPTION")" value="" required>
+    <p>Status: Open</p>
+    #if($currentUser)
+        <p>Author: $currentUser</p>
+    #end
+    <input type="submit" value="$msg.get("CREATE_ISSUE_BUTTON")">
+
+</form>
+#end

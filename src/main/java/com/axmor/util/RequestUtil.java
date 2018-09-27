@@ -8,10 +8,6 @@ public class RequestUtil {
         return request.queryParams("locale");
     }
 
-    public static String getParamIssueId(Request request) {
-        return request.params("issue_id");
-    }
-
     public static boolean clientAcceptsHtml(Request request) {
         String accept = request.headers("Accept");
         return accept != null && accept.contains("text/html");
@@ -34,6 +30,25 @@ public class RequestUtil {
         return request.queryParams("loginRedirect");
     }
 
+    public static String getParamIssueId(Request request) {
+        return request.params("issue_id");
+    }
+
+    public static String getQueryIssueName(Request request) {
+        return request.queryParams("name");
+    }
+    public static String getQueryStatus(Request request) {
+        return request.queryParams("status");
+    }
+    public static String getQueryComment(Request request) {
+        return request.queryParams("comment");
+    }
+
+    public static String getQueryIssueDescription(Request request) {
+        return request.queryParams("description");
+    }
+
+
     public static String getSessionLocale(Request request) {
         return request.session().attribute("locale");
     }
@@ -41,6 +56,7 @@ public class RequestUtil {
     public static String getSessionCurrentUser(Request request) {
         return request.session().attribute("currentUser");
     }
+
     public static String getSessionCreatedUser(Request request) {
         return request.session().attribute("createdUser");
     }
