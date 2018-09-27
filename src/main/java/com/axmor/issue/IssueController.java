@@ -57,11 +57,12 @@ public class IssueController {
         HashMap<String, Object> model = new HashMap<>();
         Issue issue = issueDao.getIssueById(getParamIssueId(request));
         Employee employee = employeeDao.getEmployeeByLogin(issue.getEmployee_login());
+        connectDB.model.createComment(issue.getName(), getSessionCurrentUser(request), getQueryStatus(request), getQueryComment(request));
         model.put("issue", issue);
         model.put("employee", employee);
         model.put("issue_logs", issueLogDao.getAllIssueLogs(issue.getName()));
+        model.put("empty_log", issueLogDao.issueLogSize());
         model.put("Allstatus", statusDao.getAllStatus());
-        connectDB.model.createComment(issue.getName(), getSessionCurrentUser(request), getQueryStatus(request), getQueryComment(request));
         get(Path.Web.ONE_ISSUE, IssueController.fetchOneIssue);
         return ViewUtil.render(request, model, Path.Template.ISSUE_ONE);
     };
@@ -75,8 +76,7 @@ public class IssueController {
     public static Route handleCreateIssue = (Request request, Response response) -> {
         LoginController.ensureUserIsLoggedIn(request, response);
         HashMap<String, Object> model = new HashMap<>();
-        Issue issue = issueDao.getIssueByName(getQueryIssueName(request));
-        if (getQueryIssueName(request).equals(issue.getName())) {
+        if (issueDao.getIssueByName(getQueryIssueName(request)) != null) {
             model.put("issueAlreadyExist", true);
             return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
         }
