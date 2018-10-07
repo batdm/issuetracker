@@ -3,6 +3,8 @@
 <form id="loginForm" method="post">
     #if($issueAlreadyExist)
         <p class="bad notification">$msg.get("CREATE_ISSUE_FAILED")</p>
+    #elseif($createSucceeded)
+        <p class="good notification">$msg.get("CREATE_ISSUE_SUCCEEDED")</p>
     #end
     <h1>$msg.get("CREATE_ISSUE_HEADING")</h1>
     <label>$msg.get("CREATE_ISSUE_NAME")</label>

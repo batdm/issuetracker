@@ -80,6 +80,7 @@ public class IssueController {
             model.put("issueAlreadyExist", true);
             return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
         }
+        model.put("createSucceeded", true);
         connectDB.model.createIssue(getSessionCurrentUser(request), getQueryIssueName(request), getQueryIssueDescription(request));
         return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
     };
