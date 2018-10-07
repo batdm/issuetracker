@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Model {
     void createIssue(String employee_id, String name, String description);
-    String addComment(String text);
+    void createAllTables();
     List getAllIssues();
     List getAllIssueLogs(String issue_name);
     List getAllStatus();

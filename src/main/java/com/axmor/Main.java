@@ -38,6 +38,7 @@ public class Main {
         staticFiles.location("/public");
         staticFiles.expireTime(600L);
         enableDebugScreen();
+//        connectDB.model.createAllTables();
         issueDao.issues = connectDB.model.getAllIssues();
         employeeDao.employees = connectDB.model.getAllEmployees();
         before("*", Filters.addTrailingSlashes);

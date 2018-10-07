@@ -30,4 +30,4 @@ status varchar(255),
 comment varchar(255),
 date timestamp,
 foreign key(issue_name) references issue(name),
-foreign key(employee_login) references employee(login))
+foreign key(employee_login) references employee(login));
