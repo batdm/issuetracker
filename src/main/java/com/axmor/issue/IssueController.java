@@ -4,6 +4,8 @@ import com.axmor.employee.Employee;
 import com.axmor.login.LoginController;
 import com.axmor.util.Path;
 import com.axmor.util.ViewUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -20,6 +22,7 @@ import static com.axmor.util.RequestUtil.*;
 import static spark.Spark.get;
 
 public class IssueController {
+    private final static Logger logger = LoggerFactory.getLogger(IssueController.class);
     public static Route fetchAllIssues = (Request request, Response response) -> {
         LoginController.ensureUserIsLoggedIn(request, response);
         if (clientAcceptsHtml(request)) {
@@ -37,8 +40,10 @@ public class IssueController {
         LoginController.ensureUserIsLoggedIn(request, response);
         if (clientAcceptsHtml(request)) {
             HashMap<String, Object> model = new HashMap<>();
-            Issue issue = issueDao.getIssueById(getParamIssueId(request));
-            Employee employee = employeeDao.getEmployeeByLogin(issue.getEmployee_login());
+//            Issue issue = issueDao.getIssueById(getParamIssueId(request));
+            Issue issue = connectDB.model.getIssueById(getParamIssueId(request));
+//            Employee employee = employeeDao.getEmployeeByLogin(issue.getEmployee_login());
+            Employee employee = connectDB.model.getEmployeeByLogin(issue.getEmployee_login());
             model.put("issue", issue);
             model.put("employee", employee);
             model.put("issue_logs", issueLogDao.getAllIssueLogs(issue.getName()));
@@ -47,7 +52,8 @@ public class IssueController {
             return ViewUtil.render(request, model, Path.Template.ISSUE_ONE);
         }
         if (clientAcceptsJson(request)) {
-            return dataToJson(issueDao.getIssueById(getParamIssueId(request)));
+//            return dataToJson(issueDao.getIssueById(getParamIssueId(request)));
+            return dataToJson(connectDB.model.getIssueById(getParamIssueId(request)));
         }
         return ViewUtil.notAcceptable.handle(request, response);
     };
@@ -55,15 +61,19 @@ public class IssueController {
     public static Route handleOneIssue = (Request request, Response response) -> {
         LoginController.ensureUserIsLoggedIn(request, response);
         HashMap<String, Object> model = new HashMap<>();
-        Issue issue = issueDao.getIssueById(getParamIssueId(request));
-        Employee employee = employeeDao.getEmployeeByLogin(issue.getEmployee_login());
+//        Issue issue = issueDao.getIssueById(getParamIssueId(request));
+        Issue issue = connectDB.model.getIssueById(getParamIssueId(request));
+//        Employee employee = employeeDao.getEmployeeByLogin(issue.getEmployee_login());
+        Employee employee = connectDB.model.getEmployeeByLogin(issue.getEmployee_login());
         connectDB.model.createComment(issue.getName(), getSessionCurrentUser(request), getQueryStatus(request), getQueryComment(request));
-        model.put("issue", issue);
+//        model.put("issue", issueDao.getIssueById(getParamIssueId(request)));
+        model.put("issue", connectDB.model.getIssueById(getParamIssueId(request)));
         model.put("employee", employee);
         model.put("issue_logs", issueLogDao.getAllIssueLogs(issue.getName()));
         model.put("empty_log", issueLogDao.issueLogSize());
         model.put("Allstatus", statusDao.getAllStatus());
         get(Path.Web.ONE_ISSUE, IssueController.fetchOneIssue);
+//        response.redirect(Path.Web.ONE_ISSUE);
         return ViewUtil.render(request, model, Path.Template.ISSUE_ONE);
     };
 
@@ -76,12 +86,15 @@ public class IssueController {
     public static Route handleCreateIssue = (Request request, Response response) -> {
         LoginController.ensureUserIsLoggedIn(request, response);
         HashMap<String, Object> model = new HashMap<>();
-        if (issueDao.getIssueByName(getQueryIssueName(request)) != null) {
+//        if (issueDao.getIssueByName(getQueryIssueName(request)) != null) {
+        if (connectDB.model.getIssueByName(getQueryIssueName(request)) != null) {
             model.put("issueAlreadyExist", true);
             return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
         }
         model.put("createSucceeded", true);
         connectDB.model.createIssue(getSessionCurrentUser(request), getQueryIssueName(request), getQueryIssueDescription(request));
+//        request.attribute("issue", issueDao.getIssueByName(getQueryIssueName(request)));
+//        response.redirect(Path.Web.ONE_ISSUE);
         return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
     };
 }

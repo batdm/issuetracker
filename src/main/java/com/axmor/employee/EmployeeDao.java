@@ -8,14 +8,9 @@ import static com.axmor.Main.connectDB;
 public class EmployeeDao {
     public List<Employee> employees;
 
-    public Employee getEmployeeByLogin(String login) {
-        employees = connectDB.model.getAllEmployees();
-        return employees.stream().filter(b -> b.getLogin().equals(login)).findFirst().orElse(null);
-    }
-
-    public Iterable<String> getAllLogin() {
-        employees = connectDB.model.getAllEmployees();
-        return employees.stream().map(Employee::getLogin).collect(Collectors.toList());
-    }
+//    public Employee getEmployeeByLogin(String login) {
+//        employees = connectDB.model.getAllEmployees();
+//        return employees.stream().filter(b -> b.getLogin().equals(login)).findFirst().orElse(null);
+//    }
 
 }

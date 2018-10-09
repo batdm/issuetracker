@@ -34,7 +34,7 @@ public class Main {
         issueLogDao = new IssueLogDao();
         statusDao = new StatusDao();
         //Configure spark
-        port(4646);
+        port(80);
         staticFiles.location("/public");
         staticFiles.expireTime(600L);
         enableDebugScreen();

@@ -11,7 +11,8 @@ public class EmployeeController {
         if (login.isEmpty() || password.isEmpty()) {
             return false;
         }
-        Employee employee = employeeDao.getEmployeeByLogin(login);
+//        Employee employee = employeeDao.getEmployeeByLogin(login);
+        Employee employee = connectDB.model.getEmployeeByLogin(login);
         if (employee == null) {
             return false;
         }
@@ -24,7 +25,8 @@ public class EmployeeController {
         if (login.isEmpty()) {
             return false;
         }
-        Employee employee = employeeDao.getEmployeeByLogin(login);
+//        Employee employee = employeeDao.getEmployeeByLogin(login);
+        Employee employee = connectDB.model.getEmployeeByLogin(login);
         if (employee == null) {
             return false;
         }

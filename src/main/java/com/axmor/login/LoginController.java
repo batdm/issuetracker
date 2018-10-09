@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.axmor.Main.connectDB;
+import static com.axmor.Main.issueDao;
 import static com.axmor.util.RequestUtil.*;
 
 public class LoginController {
@@ -41,6 +42,7 @@ public class LoginController {
         if (getQueryLoginRedirect(request) != null) {
             response.redirect(getQueryLoginRedirect(request));
         }
+        response.redirect(Path.Web.ISSUES);
         return ViewUtil.render(request, model, Path.Template.LOGIN);
     };
 
@@ -58,14 +60,14 @@ public class LoginController {
         return ViewUtil.render(request, model, Path.Template.SIGNUP);
     };
 
-    public static Route handleSignUpPost=(Request request, Response response) ->{
+    public static Route handleSignUpPost = (Request request, Response response) -> {
         Map<String, Object> model = new HashMap<>();
-        if (EmployeeController.userIsExist(getQueryLogin(request))){
+        if (EmployeeController.userIsExist(getQueryLogin(request))) {
             model.put("loginAlreadyExist", true);
             return ViewUtil.render(request, model, Path.Template.SIGNUP);
         }
         model.put("signupSucceeded", true);
-        connectDB.model.createEmployee(getQueryLogin(request),getQueryPassword(request));
+        connectDB.model.createEmployee(getQueryLogin(request), getQueryPassword(request));
         request.session().attribute("createdUser", getQueryLogin(request));
         return ViewUtil.render(request, model, Path.Template.SIGNUP);
     };
