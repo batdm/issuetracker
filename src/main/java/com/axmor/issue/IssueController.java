@@ -13,7 +13,6 @@ import spark.Route;
 import java.util.HashMap;
 
 import static com.axmor.Main.connectDB;
-import static com.axmor.Main.employeeDao;
 import static com.axmor.Main.issueDao;
 import static com.axmor.Main.issueLogDao;
 import static com.axmor.Main.statusDao;
@@ -40,9 +39,8 @@ public class IssueController {
         LoginController.ensureUserIsLoggedIn(request, response);
         if (clientAcceptsHtml(request)) {
             HashMap<String, Object> model = new HashMap<>();
-//            Issue issue = issueDao.getIssueById(getParamIssueId(request));
-            Issue issue = connectDB.model.getIssueById(getParamIssueId(request));
-//            Employee employee = employeeDao.getEmployeeByLogin(issue.getEmployee_login());
+//            Issue issue = connectDB.model.getIssueById(getParamIssueId(request));
+            Issue issue = connectDB.model.getIssueByName(getParamIssueName(request));
             Employee employee = connectDB.model.getEmployeeByLogin(issue.getEmployee_login());
             model.put("issue", issue);
             model.put("employee", employee);
@@ -73,7 +71,6 @@ public class IssueController {
         model.put("empty_log", issueLogDao.issueLogSize());
         model.put("Allstatus", statusDao.getAllStatus());
         get(Path.Web.ONE_ISSUE, IssueController.fetchOneIssue);
-//        response.redirect(Path.Web.ONE_ISSUE);
         return ViewUtil.render(request, model, Path.Template.ISSUE_ONE);
     };
 
@@ -86,15 +83,16 @@ public class IssueController {
     public static Route handleCreateIssue = (Request request, Response response) -> {
         LoginController.ensureUserIsLoggedIn(request, response);
         HashMap<String, Object> model = new HashMap<>();
-//        if (issueDao.getIssueByName(getQueryIssueName(request)) != null) {
         if (connectDB.model.getIssueByName(getQueryIssueName(request)) != null) {
             model.put("issueAlreadyExist", true);
             return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
         }
         model.put("createSucceeded", true);
         connectDB.model.createIssue(getSessionCurrentUser(request), getQueryIssueName(request), getQueryIssueDescription(request));
-//        request.attribute("issue", issueDao.getIssueByName(getQueryIssueName(request)));
-//        response.redirect(Path.Web.ONE_ISSUE);
+        logger.info("post create issue, name is {}", getQueryIssueName(request));
+        Issue issue = connectDB.model.getIssueByName(getQueryIssueName(request));
+        model.put("issue", issue);
+        response.redirect(Path.Web.ONE_ISSUE);
         return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
     };
 }

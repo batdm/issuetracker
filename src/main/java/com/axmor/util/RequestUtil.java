@@ -34,12 +34,18 @@ public class RequestUtil {
         return request.params("issue_id");
     }
 
+    public static String getParamIssueName(Request request) {
+        return request.params("name");
+    }
+
     public static String getQueryIssueName(Request request) {
         return request.queryParams("name");
     }
+
     public static String getQueryStatus(Request request) {
         return request.queryParams("status");
     }
+
     public static String getQueryComment(Request request) {
         return request.queryParams("comment");
     }
