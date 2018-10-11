@@ -9,6 +9,7 @@ import com.axmor.status.StatusDao;
 import com.axmor.util.Filters;
 import com.axmor.util.Path;
 import com.axmor.util.ViewUtil;
+import spark.Redirect;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;

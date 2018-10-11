@@ -67,6 +67,7 @@ public class IssueController {
         model.put("empty_log", issueLogDao.issueLogSize());
         model.put("Allstatus", statusDao.getAllStatus());
         get(Path.Web.ONE_ISSUE, IssueController.fetchOneIssue);
+        response.redirect(Path.Web.ISSUES.concat(issue.getIssue_id()), 303);// решает проблему повторной отправки формы при обновлении страницы
         return ViewUtil.render(request, model, Path.Template.ISSUE_ONE);
     };
 
@@ -86,7 +87,7 @@ public class IssueController {
         model.put("createSucceeded", true);
         connectDB.model.createIssue(getSessionCurrentUser(request), getQueryIssueName(request), getQueryIssueDescription(request));
         Issue issue = connectDB.model.getIssueByName(getQueryIssueName(request));
-        logger.info("Create issue '{}' with id '{}'",getQueryIssueName(request),issue.getIssue_id());
+        logger.info("Create issue '{}' with id '{}'", getQueryIssueName(request), issue.getIssue_id());
         response.redirect(Path.Web.ISSUES.concat(issue.getIssue_id()));
         return ViewUtil.render(request, model, Path.Template.CREATE_ISSUE);
     };
