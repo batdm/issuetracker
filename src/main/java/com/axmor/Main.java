@@ -9,6 +9,7 @@ import com.axmor.status.StatusDao;
 import com.axmor.util.Filters;
 import com.axmor.util.Path;
 import com.axmor.util.ViewUtil;
+import spark.Redirect;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
@@ -34,7 +35,7 @@ public class Main {
         issueLogDao = new IssueLogDao();
         statusDao = new StatusDao();
         //Configure spark
-        port(80);
+        port(8080);
         staticFiles.location("/public");
         staticFiles.expireTime(600L);
         enableDebugScreen();
