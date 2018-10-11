@@ -37,9 +37,11 @@ public class RequestUtil {
     public static String getQueryIssueName(Request request) {
         return request.queryParams("name");
     }
+
     public static String getQueryStatus(Request request) {
         return request.queryParams("status");
     }
+
     public static String getQueryComment(Request request) {
         return request.queryParams("comment");
     }
