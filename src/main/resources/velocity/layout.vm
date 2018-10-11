@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/main.css">
     <link rel="icon" href="/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/html_inj.js"></script>
 </head>
 <body>
 <header>
@@ -19,7 +20,10 @@
                     </form>
                 </li>
                 <li>
-                    <label id="logout">User: $currentUser</label>
+##                    <label id="logout">User: $currentUser</label>
+                    <label id="logout">User:
+                        <script>escapeHtml('$currentUser');</script>
+                    </label>
                 </li>
             #else
                 <li><a href="$WebPath.getLOGIN()"">$msg.get("COMMON_NAV_LOGIN")</a></li>
@@ -33,9 +37,7 @@
         $bodyContent
     </div>
 </main>
-##<footer>
-##    $msg.get("COMMON_FOOTER_TEXT")
-##</footer>
+
 </body>
 </html>
 #end
