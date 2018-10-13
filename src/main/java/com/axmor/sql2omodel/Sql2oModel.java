@@ -38,72 +38,26 @@ public class Sql2oModel implements Model {
 
     @Override
     public void createAllTables() {
-        Connection conn = null;
-        Query query = null;
-        ResultSet table = null;
         SQLTables sqlt = new SQLTables();
-        DatabaseMetaData dbm;
         final String[] tables = {"EMPLOYEE", "ISSUE", "ISSUE_LOG", "STATUS"};
-        try {
-            for (String t : tables) {
-                logger.info("Check table {}", t);
-                conn = sql2o.open();
-                dbm = conn.getJdbcConnection().getMetaData();
-                table = dbm.getTables(null, null, t, null);
-                if (table.next()) {
-                    //table exist
+//        try {
+        for (String t : tables) {
+            logger.info("Check table {}", t);
+            try (Connection conn = sql2o.open();
+                 java.sql.Connection jConn = conn.getJdbcConnection();
+                 ResultSet table = jConn.getMetaData().getTables(null, null, t, null)) {
+                if (table.next()) { //table exist
                     logger.info("Table {} already exist.", t);
-                } else {
-                    //table does not exist
+                } else {//table does not exist
                     logger.info("Table {} does not exist.", t);
-                    switch (t) {
-                        case "EMPLOYEE":
-//                            conn.createQuery(sqlt.createEmployee).executeUpdate();
-                            query = conn.createQuery(sqlt.createEmployee);
-                            query.executeUpdate();
-                            logger.info("switch {}, then create query and execute update", t);
-                            break;
-                        case "ISSUE":
-//                            conn.createQuery(sqlt.createIssue).executeUpdate();
-                            query = conn.createQuery(sqlt.createIssue);
-                            query.executeUpdate();
-                            logger.info("switch {}, then create query and execute update", t);
-                            break;
-                        case "ISSUE_LOG":
-//                            conn.createQuery(sqlt.createIssueLog).executeUpdate();
-                            query = conn.createQuery(sqlt.createIssueLog);
-                            query.executeUpdate();
-                            logger.info("switch {}, then create query and execute update", t);
-                            break;
-                        case "STATUS":
-//                            conn.createQuery(sqlt.createStatus).executeUpdate();
-//                            conn.createQuery(sqlt.insertStatus).executeUpdate();
-                            query = conn.createQuery(sqlt.createStatus);
-                            query.executeUpdate();
-                            query = conn.createQuery(sqlt.insertStatus);
-                            query.executeUpdate();
-                            logger.info("switch {}, then create query and execute update", t);
-                            break;
+                    try (Query query = conn.createQuery(t.equals("EMPLOYEE") ? sqlt.createEmployee : t.equals("ISSUE") ? sqlt.createIssue : t.equals("ISSUE_LOG") ? sqlt.createIssueLog : sqlt.createStatus);
+                         Connection conn2 = query.executeUpdate()) {
+                        logger.info("Table {} created", t);
+                        conn.commit();
                     }
-                    logger.info("Table {} created", t);
-                    conn.commit();
                 }
-            }
-        } catch (SQLException e) {
-            logger.info(e.toString());
-        } finally {
-            if (query != null) {
-                query.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-            if (table != null) {
-                try {
-                    table.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            } catch (SQLException e) {
+                logger.info(e.toString());
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.axmor.employee;
 
-import org.mindrot.jbcrypt.BCrypt;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.axmor.Main.*;
 
@@ -11,21 +12,17 @@ public class EmployeeController {
         if (login.isEmpty() || password.isEmpty()) {
             return false;
         }
-//        Employee employee = employeeDao.getEmployeeByLogin(login);
         Employee employee = connectDB.model.getEmployeeByLogin(login);
         if (employee == null) {
             return false;
         }
-//        String hashedPassword = BCrypt.hashpw(password, employee.getSalt());
-//        return hashedPassword.equals(employee.getHashedPassword());
         return password.equals(employee.getPassword());
     }
 
-    public static boolean userIsExist(String login) {
+    public static boolean userIsExist(String login) {//Check existing login
         if (login.isEmpty()) {
             return false;
         }
-//        Employee employee = employeeDao.getEmployeeByLogin(login);
         Employee employee = connectDB.model.getEmployeeByLogin(login);
         if (employee == null) {
             return false;
@@ -33,12 +30,12 @@ public class EmployeeController {
         return login.equals(employee.getLogin());
     }
 
-    // This method doesn't do anything, it's just included as an example
-    public static void setPassword(String login, String oldPassword, String newPassword) {
-        if (authenticate(login, oldPassword)) {
-            String newSalt = BCrypt.gensalt();
-            String newHashedPassword = BCrypt.hashpw(newSalt, newPassword);
-            // Update the user salt and password
+    public static boolean isIncorrectLogin(String login) {//Verification string on contains spec chars. return false when login contains a-z or 0-9
+        if (login == null) {
+            return false;
         }
+        Pattern pattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(login);
+        return matcher.find();
     }
 }

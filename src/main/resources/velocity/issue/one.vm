@@ -40,6 +40,9 @@
                     #end
                 </select></p>
             <p>Author: $currentUser</p>
+            #if($specCharExist)
+                <p class="bad notification">$msg.get("LOGIN_SIGNUP_FAILED_SPEC_CHAR", "Comment")</p>
+            #end
             <p>Comment:<Br>
                 <textarea name="comment" cols="40" rows="3" required></textarea></p>
             <p><input type="submit" value="Add">

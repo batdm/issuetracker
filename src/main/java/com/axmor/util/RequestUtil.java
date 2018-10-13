@@ -4,7 +4,7 @@ import spark.Request;
 
 public class RequestUtil {
 
-    public static String getQueryLocale(Request request) {
+    static String getQueryLocale(Request request) {
         return request.queryParams("locale");
     }
 
@@ -34,10 +34,6 @@ public class RequestUtil {
         return request.params("issue_id");
     }
 
-    public static String getParamIssueName(Request request) {
-        return request.params("name");
-    }
-
     public static String getQueryIssueName(Request request) {
         return request.queryParams("name");
     }
@@ -55,15 +51,23 @@ public class RequestUtil {
     }
 
 
-    public static String getSessionLocale(Request request) {
+    static String getSessionLocale(Request request) {
         return request.session().attribute("locale");
     }
+
+    public static Boolean getSessionIncorrectString(Request request) {
+        if (request.session().attribute("isCorrectString") == null) {
+            return false;
+        }
+        return request.session().attribute("isCorrectString");
+    }
+
 
     public static String getSessionCurrentUser(Request request) {
         return request.session().attribute("currentUser");
     }
 
-    public static String getSessionCreatedUser(Request request) {
+    static String getSessionCreatedUser(Request request) {
         return request.session().attribute("createdUser");
     }
 

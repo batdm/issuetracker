@@ -3,6 +3,8 @@
 <form id="loginForm" method="post">
     #if($issueAlreadyExist)
         <p class="bad notification">$msg.get("CREATE_ISSUE_FAILED")</p>
+    #elseif($specCharExist)
+        <p class="bad notification">$msg.get("LOGIN_SIGNUP_FAILED_SPEC_CHAR","Issue")</p>
     #elseif($createSucceeded)
         <p class="good notification">$msg.get("CREATE_ISSUE_SUCCEEDED")</p>
     #end

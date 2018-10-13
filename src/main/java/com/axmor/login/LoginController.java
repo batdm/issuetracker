@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.axmor.Main.connectDB;
-import static com.axmor.Main.issueDao;
 import static com.axmor.util.RequestUtil.*;
 
 public class LoginController {
@@ -35,6 +34,9 @@ public class LoginController {
         Map<String, Object> model = new HashMap<>();
         if (!EmployeeController.authenticate(getQueryLogin(request), getQueryPassword(request))) {
             model.put("authenticationFailed", true);
+            return ViewUtil.render(request, model, Path.Template.LOGIN);
+        } else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
+            model.put("specCharExist", true);
             return ViewUtil.render(request, model, Path.Template.LOGIN);
         }
         model.put("authenticationSucceeded", true);
@@ -64,6 +66,9 @@ public class LoginController {
         Map<String, Object> model = new HashMap<>();
         if (EmployeeController.userIsExist(getQueryLogin(request))) {
             model.put("loginAlreadyExist", true);
+            return ViewUtil.render(request, model, Path.Template.SIGNUP);
+        } else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
+            model.put("specCharExist", true);
             return ViewUtil.render(request, model, Path.Template.SIGNUP);
         }
         model.put("signupSucceeded", true);

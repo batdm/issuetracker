@@ -21,7 +21,6 @@ public class Main {
 
     // Declare dependencies
     public static IssueDao issueDao;
-    public static EmployeeDao employeeDao;
     public static ConnectDB connectDB;
     public static IssueLogDao issueLogDao;
     public static StatusDao statusDao;
@@ -30,16 +29,15 @@ public class Main {
 
         // Instantiate your dependencies
         issueDao = new IssueDao();
-        employeeDao = new EmployeeDao();
+        EmployeeDao employeeDao = new EmployeeDao();
         connectDB = new ConnectDB();
         issueLogDao = new IssueLogDao();
         statusDao = new StatusDao();
         //Configure spark
-        port(8080);
+        port(80);
         staticFiles.location("/public");
         staticFiles.expireTime(600L);
         enableDebugScreen();
-//        connectDB.model.createAllTables();
         issueDao.issues = connectDB.model.getAllIssues();
         employeeDao.employees = connectDB.model.getAllEmployees();
         before("*", Filters.addTrailingSlashes);

@@ -20,7 +20,6 @@
                     </form>
                 </li>
                 <li>
-##                    <label id="logout">User: $currentUser</label>
                     <label id="logout">User:
                         <script>escapeHtml('$currentUser');</script>
                     </label>

@@ -7,10 +7,4 @@ import static com.axmor.Main.connectDB;
 
 public class EmployeeDao {
     public List<Employee> employees;
-
-//    public Employee getEmployeeByLogin(String login) {
-//        employees = connectDB.model.getAllEmployees();
-//        return employees.stream().filter(b -> b.getLogin().equals(login)).findFirst().orElse(null);
-//    }
-
 }

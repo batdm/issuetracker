@@ -12,6 +12,7 @@
 #* @vtlvariable name="authenticationSucceeded" type="java.lang.String" *#
 #* @vtlvariable name="loginRedirect" type="java.lang.String" *#
 #* @vtlvariable name="loginAlreadyExist" type="java.lang.String" *#
+#* @vtlvariable name="specCharExist" type="java.lang.String" *#
 #* @vtlvariable name="issueAlreadyExist" type="java.lang.String" *#
 #* @vtlvariable name="createSucceeded" type="java.lang.String" *#
 #* @vtlvariable name="signupSucceeded" type="java.lang.String" *#

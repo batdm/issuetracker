@@ -16,8 +16,8 @@ public class SQLTables {
             "foreign key(employee_login) references employee(login));";
     public String createStatus = "create table status(\n" +
             "status_id int primary key auto_increment,\n" +
-            "name varchar(255));";
-    public String insertStatus = "insert into status (name) values ('open'),('close'),('resolve')";
+            "name varchar(255));" +
+            "insert into status (name) values ('open'),('close'),('resolve');";
     public String createIssueLog = "create table issue_log(\n" +
             "log_id int primary key auto_increment,\n" +
             "issue_name varchar(255),\n" +
