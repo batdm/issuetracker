@@ -10,9 +10,9 @@
     #end
     <h1>$msg.get("CREATE_ISSUE_HEADING")</h1>
     <label>$msg.get("CREATE_ISSUE_NAME")</label>
-    <input type="text" name="name" placeholder="$msg.get("CREATE_ISSUE_NAME")" value="" required>
+    <input type="text" name="name" maxlength="30" placeholder="$msg.get("CREATE_ISSUE_NAME")" value="" required>
     <label>$msg.get("CREATE_ISSUE_DESCRIPTION")</label>
-    <input type="text" name="description" placeholder="$msg.get("CREATE_ISSUE_DESCRIPTION")" value="" required>
+    <input type="text" name="description" maxlength="100" placeholder="$msg.get("CREATE_ISSUE_DESCRIPTION")" value="" required>
     <p>Status: Open</p>
     #if($currentUser)
         <p>Author: $currentUser</p>

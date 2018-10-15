@@ -2,14 +2,14 @@
 #@mainLayout()
 <h1>$msg.get("ISSUES_HEADING_ALL")</h1>
 <div>
-    <table cellspacing="10">
+    <table cellspacing="10" width="100%">
         <tr>
             <th>Issue</th>
             <th>Status</th>
             <th>Date</th>
         </tr>
         #foreach($issue in $issues)
-            <tr>
+            <tr id="txt-center">
                 <td><a href="$WebPath.getISSUES()$issue.getIssue_id()">$issue.getName()</a></td>
                 <td>$issue.getStatus()</td>
                 <td>$issue.getStartdate()</td>

@@ -34,7 +34,7 @@ public class Main {
         issueLogDao = new IssueLogDao();
         statusDao = new StatusDao();
         //Configure spark
-        port(8080);
+        port(80);
         staticFiles.location("/public");
         staticFiles.expireTime(600L);
         enableDebugScreen();
@@ -42,8 +42,8 @@ public class Main {
         employeeDao.employees = connectDB.model.getAllEmployees();
         before("*", Filters.addTrailingSlashes);
         before("*", Filters.handleLocaleChange);
+        redirect.get("/", Path.Web.LOGIN);
         // Set up routes
-        get(Path.Web.START, LoginController.serveLoginPage);
         get(Path.Web.ISSUES, IssueController.fetchAllIssues);
         get(Path.Web.ONE_ISSUE, IssueController.fetchOneIssue);
         get(Path.Web.LOGIN, LoginController.serveLoginPage);

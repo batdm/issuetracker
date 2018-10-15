@@ -24,6 +24,9 @@ public class LoginController {
     }
 
     public static Route serveLoginPage = (Request request, Response response) -> {
+        if (request.session().attribute("currentUser") != null) {
+            response.redirect(Path.Web.ISSUES);
+        }
         Map<String, Object> model = new HashMap<>();
         model.put("loggedOut", removeSessionAttrLoggedOut(request));
         model.put("loginRedirect", removeSessionAttrLoginRedirect(request));
@@ -35,8 +38,7 @@ public class LoginController {
         if (!EmployeeController.authenticate(getQueryLogin(request), getQueryPassword(request))) {
             model.put("authenticationFailed", true);
             return ViewUtil.render(request, model, Path.Template.LOGIN);
-        }
-        else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
+        } else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
             model.put("specCharExist", true);
             return ViewUtil.render(request, model, Path.Template.LOGIN);
         }
@@ -68,8 +70,7 @@ public class LoginController {
         if (EmployeeController.userIsExist(getQueryLogin(request))) {
             model.put("loginAlreadyExist", true);
             return ViewUtil.render(request, model, Path.Template.SIGNUP);
-        }
-        else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
+        } else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
             model.put("specCharExist", true);
             return ViewUtil.render(request, model, Path.Template.SIGNUP);
         }
