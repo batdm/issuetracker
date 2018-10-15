@@ -1,5 +1,6 @@
 package com.axmor.util;
 
+import com.axmor.employee.EmployeeController;
 import spark.Request;
 
 public class RequestUtil {
@@ -35,7 +36,8 @@ public class RequestUtil {
     }
 
     public static String getQueryIssueName(Request request) {
-        return request.queryParams("name");
+//        return request.queryParams("name");
+        return EmployeeController.safeOutput(request.queryParams("name"));
     }
 
     public static String getQueryStatus(Request request) {
@@ -43,11 +45,13 @@ public class RequestUtil {
     }
 
     public static String getQueryComment(Request request) {
-        return request.queryParams("comment");
+//        return request.queryParams("comment");
+        return EmployeeController.safeOutput(request.queryParams("comment"));
     }
 
     public static String getQueryIssueDescription(Request request) {
-        return request.queryParams("description");
+//        return request.queryParams("description");
+        return EmployeeController.safeOutput(request.queryParams("description"));
     }
 
 

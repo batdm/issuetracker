@@ -34,7 +34,7 @@ public class Main {
         issueLogDao = new IssueLogDao();
         statusDao = new StatusDao();
         //Configure spark
-        port(80);
+        port(8080);
         staticFiles.location("/public");
         staticFiles.expireTime(600L);
         enableDebugScreen();
@@ -43,6 +43,7 @@ public class Main {
         before("*", Filters.addTrailingSlashes);
         before("*", Filters.handleLocaleChange);
         // Set up routes
+        get(Path.Web.START, LoginController.serveLoginPage);
         get(Path.Web.ISSUES, IssueController.fetchAllIssues);
         get(Path.Web.ONE_ISSUE, IssueController.fetchOneIssue);
         get(Path.Web.LOGIN, LoginController.serveLoginPage);

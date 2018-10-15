@@ -5,6 +5,8 @@ import lombok.Getter;
 public class Path {
     public static class Web {
         @Getter
+        public static final String START = "/";
+        @Getter
         public static final String LOGIN = "/login/";
         @Getter
         public static final String SIGNUP = "/signup/";

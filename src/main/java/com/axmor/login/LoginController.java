@@ -35,12 +35,13 @@ public class LoginController {
         if (!EmployeeController.authenticate(getQueryLogin(request), getQueryPassword(request))) {
             model.put("authenticationFailed", true);
             return ViewUtil.render(request, model, Path.Template.LOGIN);
-        } else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
+        }
+        else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
             model.put("specCharExist", true);
             return ViewUtil.render(request, model, Path.Template.LOGIN);
         }
         model.put("authenticationSucceeded", true);
-        request.session().attribute("currentUser", getQueryLogin(request));
+        request.session().attribute("currentUser", EmployeeController.safeOutput(getQueryLogin(request)));
         if (getQueryLoginRedirect(request) != null) {
             response.redirect(getQueryLoginRedirect(request));
         }
@@ -67,13 +68,14 @@ public class LoginController {
         if (EmployeeController.userIsExist(getQueryLogin(request))) {
             model.put("loginAlreadyExist", true);
             return ViewUtil.render(request, model, Path.Template.SIGNUP);
-        } else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
+        }
+        else if (EmployeeController.isIncorrectLogin(getQueryLogin(request))) {
             model.put("specCharExist", true);
             return ViewUtil.render(request, model, Path.Template.SIGNUP);
         }
         model.put("signupSucceeded", true);
-        connectDB.model.createEmployee(getQueryLogin(request), getQueryPassword(request));
-        request.session().attribute("createdUser", getQueryLogin(request));
+        connectDB.model.createEmployee(EmployeeController.safeOutput(getQueryLogin(request)), getQueryPassword(request));
+        request.session().attribute("createdUser", EmployeeController.safeOutput(getQueryLogin(request)));
         return ViewUtil.render(request, model, Path.Template.SIGNUP);
     };
 }
